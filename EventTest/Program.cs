@@ -93,17 +93,17 @@ namespace EventTest
             }
         }
 
-        private static void PersistEvents(IMongoCollection<ValidationEventBase> coll, ReportingEntityInstance instance)
+        private static void PersistEvents(IMongoCollection<ReiEventBase> coll, ReportingEntityInstance instance)
         {
             var validations = instance.GetUncommittedChanges();
-            coll.InsertMany(validations.OfType<ValidationEventBase>());
+            coll.InsertMany(validations.OfType<ReiEventBase>());
             instance.MarkChangesAsCommitted();
         }
 
-        private static ReportingEntityInstance LoadDomain(IMongoCollection<ValidationEventBase> coll, string formId, string rei)
+        private static ReportingEntityInstance LoadDomain(IMongoCollection<ReiEventBase> coll, string formId, string rei)
         {
             var instance = new ReportingEntityInstance(formId, rei);
-            var events = coll.Find<ValidationEventBase>(veb => veb.FormId == formId && veb.ReportingEntityInstanceId == rei)
+            var events = coll.Find<ReiEventBase>(veb => veb.FormId == formId && veb.ReportingEntityInstanceId == rei)
                              .SortBy(veb => veb.Timestamp);
             instance.LoadFromHistory(events.ToEnumerable());
             return instance;
@@ -123,9 +123,19 @@ namespace EventTest
             Console.WriteLine("");
         }
 
-        private static IMongoCollection<ValidationEventBase> SetupMongoMaps()
+        private static IMongoCollection<ReiEventBase> SetupMongoMaps()
         {
             BsonClassMap.RegisterClassMap<EventBase>(cm =>
+            {
+                cm.AutoMap();
+                cm.AddKnownType(typeof(ReiEventBase));
+                cm.AddKnownType(typeof(ValidationEventBase));
+                cm.AddKnownType(typeof(ValidationPassed));
+                cm.AddKnownType(typeof(ValidationFailed));
+
+                cm.SetIsRootClass(true);
+            });
+            BsonClassMap.RegisterClassMap<ReiEventBase>(cm =>
             {
                 cm.AutoMap();
                 cm.AddKnownType(typeof(ValidationEventBase));
@@ -145,7 +155,7 @@ namespace EventTest
 
             var client = new MongoClient("mongodb://localhost:27017");
             var db = client.GetDatabase("Events");
-            var coll = db.GetCollection<ValidationEventBase>("Validations");
+            var coll = db.GetCollection<ReiEventBase>("Validations");
 
             return coll;
         }
