@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Cti.Platform.Events;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EventTest.Events;
+using System.Collections.Generic;
 
 namespace EventTest
 {
     public abstract class AggregateRoot
     {
         private readonly List<EventBase> _changes = new List<EventBase>();
+
+        public Guid Id { get; internal set; }
+        public int Version { get; internal set; }
 
         public IEnumerable<EventBase> GetUncommittedChanges()
         {

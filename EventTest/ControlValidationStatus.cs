@@ -12,42 +12,28 @@ namespace EventTest
         public String Validator;
         public Boolean State;
         public String Message;
+        public Object[] Values;
         public Int64 Timestamp;
     }
-
-
     //public class ControlValidationStatus
     //{
-    //    public String ControlId;
-    //    public Boolean State;
-    //    private IDictionary<String, IList<ValidationStatus>> _status;
+    //    public readonly String ControlId;
 
-    //    public ControlValidationStatus(String id)
+    //    private IList<ValidationStatus> _status;
+    //    public ControlValidationStatus(String controlId)
     //    {
-    //        ControlId = id;
-    //        _status = new Dictionary<String, IList<ValidationStatus>>();
+    //        ControlId = controlId;
     //    }
 
-    //    public void AddStatus(ValidationStatus status)
-    //    {
-    //        if (_status.ContainsKey(status.Name))
-    //        {
-    //            _status[status.Name].Add(status);
-    //        }
-    //        else
-    //        {
-    //            _status.Add(status.Name, new List<ValidationStatus>());
-    //            _status[status.Name].Add(status);
-    //        }
-    //    }
+    //    public void AddStatus(ValidationStatus status) { _status.Add(status); }
+    //    public IEnumerable<ValidationStatus> GetStatus() { return _status.AsEnumerable(); }
     //}
-
 
     //public class ValidationStatus
     //{
-    //    public String Name;
-    //    public String Message;
-    //    public Int64 Timestamp;
-    //    public Boolean Passed;
+    //    public readonly String Message;
+    //    public readonly Boolean Passed;
+    //    public readonly Int64 Timestamp;
+    //    public ValidationStatus(Boolean isPassed, String msg, Int64 stamp) { Message = msg; Passed = isPassed; Timestamp = stamp; }
     //}
 }

@@ -6,11 +6,7 @@ using System.Threading.Tasks;
 
 namespace EventTest.Events
 {
-    public class ValidationFailed : EventBase
+    public class ValidationFailed : ValidationEventBase
     {
-        public String ControlId { get; set; }
-        public String Message { get; set; }
-        public String Validator { get; set; }
-        public Int64 Timestamp { get; set; }
     }
 }
